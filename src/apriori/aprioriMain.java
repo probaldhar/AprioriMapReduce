@@ -54,8 +54,6 @@ public class aprioriMain {
 			conf.setInt("numTxns", MAX_NUM_TXNS);
 		}
 		
-		/**
-		
 		// create the job
 //        Configuration conf = new Configuration();
         Job job = new Job(conf, "apriori");
@@ -89,9 +87,9 @@ public class aprioriMain {
         // output in a file & stored in HDFS
         job.setOutputFormatClass(TextOutputFormat.class);
         
-//        /**
-//         * DELETE output folder if exists
-//         
+        /**
+         * DELETE output folder if exists
+         */
         addedFunctions.deleteOutputFolder(args[1], conf);
         
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
@@ -102,18 +100,15 @@ public class aprioriMain {
             throw new IllegalStateException("Job failed");
         }
         
-        
-        */
-        
         // CopyMerge
         
         // DELETE output folder if exists - not folder
-//        addedFunctions.deleteOutputFolder(args[1] + "-output", conf);
-//        
-//        if ( addedFunctions.copyMergeFiles(conf, args[1], args[1] + "-output") )
-//        	System.out.println("copyMerge successful");
-//        else
-//        	System.out.println("copyMerge not happened");
+        addedFunctions.deleteOutputFolder(args[1] + "-output", conf);
+        
+        if ( addedFunctions.copyMergeFiles(conf, args[1], args[1] + "-output") )
+        	System.out.println("copyMerge successful");
+        else
+        	System.out.println("copyMerge not happened");
         
         /*
          * 
