@@ -39,8 +39,8 @@ public class aprioriMapper2 extends Mapper<LongWritable,Text,Text,IntWritable> {
 		// Get the combinations
 		getListFromComb = addedFunctions.getCombinations1(list);
 		
-		list.clear();
-		getListFromComb.clear();
+//		list.clear();
+//		getListFromComb.clear();
 		
 		
 		// Printing all the elements of the ArrayList getListFromComb
