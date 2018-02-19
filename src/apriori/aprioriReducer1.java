@@ -8,7 +8,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-//import utils.addedFunctions;
+import utils.addedFunctions;
 
 public class aprioriReducer1 extends Reducer<Text, IntWritable, Text, LongWritable>{
 	
@@ -29,16 +29,16 @@ public class aprioriReducer1 extends Reducer<Text, IntWritable, Text, LongWritab
         String itemsetIds = itemset.toString();
         
         // getting the minimum support & maximum number of transactions
-//        Double minSup = Double.parseDouble(context.getConfiguration().get("minSup"));
-//        Integer numTxns = context.getConfiguration().getInt("numTxns", 2);
+        Double minSup = Double.parseDouble(context.getConfiguration().get("minSup"));
+        Integer numTxns = context.getConfiguration().getInt("numTxns", 2);
         
         // getting the "actual" support in respect to the maximum transaction
 //        total = total / (long) numTxns;
         
         // Check if the total is greater or equal than minimum support
-//        if ( addedFunctions.hasMinSupport(minSup, numTxns, total) ) 
+        if ( addedFunctions.hasMinSupport(minSup, numTxns, total) ) 
 //        	context.write(new Text(itemsetIds + ","), new LongWritable(total));
-        	context.write(new Text(itemsetIds), new LongWritable(total));
+        	context.write(new Text(itemsetIds + ","), new LongWritable(total));
 
     }
 

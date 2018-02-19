@@ -134,7 +134,7 @@ public class aprioriMain {
         job2.setMapOutputKeyClass(Text.class);
         job2.setMapOutputValueClass(IntWritable.class);
 
-        job2.setNumReduceTasks(20);
+        job2.setNumReduceTasks(10);
         job2.setReducerClass(aprioriReducer2.class);
         
 //        job2.setMapOutputKeyClass(Text.class);
@@ -159,64 +159,75 @@ public class aprioriMain {
         }
         
         
+        /**
+         * CopyMerge - 2nd Time
+         */
+        
+        // DELETE output folder if exists - not folder
+        addedFunctions.deleteOutputFolder(args[1] + "-outputFinal", conf);
+        
+        if ( addedFunctions.copyMergeFiles(conf, args[1] + "-1", args[1] + "-outputFinal") )
+        	System.out.println("copyMerge successful");
+        else
+        	System.out.println("copyMerge not happened");
         
         
-        
-        /*
+        /**
          * 
          * Job 3
          */
         
-//        Job job3 = new Job(conf, "apriori3");
-//        job3.setJarByClass(aprioriMain.class);
-//        
-//        // Distributed cache to pass the main input file
-//        DistributedCache.addCacheFile(new Path(args[1] + "-output").toUri(), job3.getConfiguration());
-//
-//        // Add the required configurations
-//
-//        FileInputFormat.addInputPath(job3, new Path(args[1] + "-1"));
-//
-//        job3.setInputFormatClass(TextInputFormat.class);
-//
-//        // Submits the job
-//
-//        job3.setMapperClass(aprioriMapper3.class);
-//
-//        job3.setMapOutputKeyClass(Text.class);
-//        job3.setMapOutputValueClass(Text.class);
-//
-//        job2.setNumReduceTasks(0);
-////        job2.setReducerClass(aprioriReducer1.class);
-//        
-//        job3.setMapOutputKeyClass(Text.class);
-//        job3.setMapOutputValueClass(Text.class);
-//
-////        job2.setOutputKeyClass(Text.class);
-////        job2.setOutputValueClass(LongWritable.class);
-//        
-//        /**
-//         * DELETE output folder if exists
-//         */
-//        addedFunctions.deleteOutputFolder(args[1] + "-2", conf);
-//
-//        // output in a file & stored in HDFS
-//        job3.setOutputFormatClass(TextOutputFormat.class);
-//        FileOutputFormat.setOutputPath(job3, new Path(args[1] + "-2"));
-//
-//        boolean succeeded3 = job3.waitForCompletion(true);
-//
-//        if( !succeeded3 ){
-//            throw new IllegalStateException("Job3 failed");
-//        }
+        Job job3 = new Job(conf, "apriori3");
+        job3.setJarByClass(aprioriMain.class);
+        
+        // Distributed cache to pass the main input file
+        DistributedCache.addCacheFile(new Path(args[1] + "-output").toUri(), job3.getConfiguration());
+        DistributedCache.addCacheFile(new Path(args[1] + "-outputFinal").toUri(), job3.getConfiguration());
+        // Add the required configurations
+
+        FileInputFormat.addInputPath(job3, new Path(args[1] + "-1"));
+
+        job3.setInputFormatClass(TextInputFormat.class);
+
+        // Submits the job
+
+        job3.setMapperClass(aprioriMapper3.class);
+
+        job3.setMapOutputKeyClass(Text.class);
+        job3.setMapOutputValueClass(Text.class);
+
+        job3.setNumReduceTasks(0);
+//        job2.setReducerClass(aprioriReducer1.class);
+        
+        job3.setMapOutputKeyClass(Text.class);
+        job3.setMapOutputValueClass(Text.class);
+
+//        job2.setOutputKeyClass(Text.class);
+//        job2.setOutputValueClass(LongWritable.class);
+        
+        /**
+         * DELETE output folder if exists
+         */
+        addedFunctions.deleteOutputFolder(args[1] + "-2", conf);
+
+        // output in a file & stored in HDFS
+        job3.setOutputFormatClass(TextOutputFormat.class);
+        FileOutputFormat.setOutputPath(job3, new Path(args[1] + "-2"));
+
+        boolean succeeded3 = job3.waitForCompletion(true);
+
+        if( !succeeded3 ){
+            throw new IllegalStateException("Job3 failed");
+        }
         
         
-        
-        
+        /**
+         * End of job3
+         */
         
         // Time measurement
         endTime = System.currentTimeMillis();
-		System.out.println("Total time taken = " + (endTime - startTime));
+		System.out.println("Total time taken = " + (endTime - startTime) );
 		
 	}
 	

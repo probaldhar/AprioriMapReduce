@@ -61,20 +61,28 @@ public class aprioriMapper3 extends Mapper<LongWritable,Text,Text,Text>{
     protected void map(LongWritable offset, Text input, Context context) throws IOException, InterruptedException {
         // the required map code should be added here
     	
+    	/**
+    	 * Main Input
+    	 */
     	String textToString = input.toString();
     	
+    	/**
+    	 * Splitting main input : by comma
+    	 * words -> generated 2 Frequent itemSet
+    	 */
     	String[] words = textToString.split(",");
     	
 //    	System.out.println("words length: " + words.length);
     	
+    	/**
+    	 * Splitting main input : by space
+    	 */
     	String [] splitWords = textToString.split("\\s");
     	
 //    	System.out.println("splitWords length: " + splitWords.length);
 		
 //		for ( String aString: splitWords )
 //			System.out.println("[" + aString + "]");
-
-//        for ( int i = 0; i < words.length; i++ ) {
 
 		// Not adding 1-itemset
     	if ( splitWords.length > 2 ) {
@@ -121,30 +129,9 @@ public class aprioriMapper3 extends Mapper<LongWritable,Text,Text,Text>{
     		
 //    		System.out.println("lift: " + lift );
          
-    		context.write(new Text(words[0]), new Text(String.valueOf(support) + ", " + String.valueOf(confidence) + ", " + String.valueOf(lift)) );
+    		context.write(new Text(words[0] + ","), new Text(String.valueOf(support) + ", " + String.valueOf(confidence) + ", " + String.valueOf(lift)) );
             
     	}
-
-//        }
-        
-//    	System.out.println("Reading from Distributed cache file");
-//    	for ( String aString: stopWords) {
-//    		System.out.println(aString);
-//    		context.write(new Text(aString), new IntWritable(100));
-//    	}
-    	
-//    	for (HashMap.Entry<String, Integer> entry : map.entrySet()) {
-//    	    String key = entry.getKey();
-//    	    Object value = entry.getValue();
-//    	    // ...
-//    	}
-    	
-    	
-//    	System.out.println("all HashMap keys and values.");
-//    	for (String key : combWithValues.keySet()) {
-//    	    Integer value = combWithValues.get(key);
-//    	    System.out.println("Key = " + key + ", Value = " + value);
-//    	}
     	
     	
     }
