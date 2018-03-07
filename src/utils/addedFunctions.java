@@ -225,6 +225,20 @@ public class addedFunctions {
 		return results;
 	}
 	
+	/**
+	 * Return the support for a number 
+	 * 
+	 * @param	number	number for that we need to get the support
+	 * @param	maxTrnx	maximum number of transactions
+	 * 
+	 * @return	return the calculated support for a given number
+	 */
+	public static float getSupport( float number, Integer maxTrnx ) {
+		
+		return ( number / (float) maxTrnx );
+		
+	}
+	
 	
 		
 	

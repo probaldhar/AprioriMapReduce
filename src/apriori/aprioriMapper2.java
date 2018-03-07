@@ -32,29 +32,29 @@ public class aprioriMapper2 extends Mapper<LongWritable,Text,Text,IntWritable> {
 	@Override
     protected void setup(Context context) throws IOException, InterruptedException {
 		
-    	try{
-//    		System.out.println("In the try in setup");
-    		
-    		Path[] stopWordsFiles = DistributedCache.getLocalCacheFiles(context.getConfiguration());
-    		
-//    		System.out.println("Setup in Map 2");
-//    		System.out.println(stopWordsFiles);
-    		
-    		if(stopWordsFiles != null && stopWordsFiles.length > 0) {
-    			for(Path stopWordFile : stopWordsFiles) {
-//    				System.out.println(stopWordFile);
-    				readFile(stopWordFile, context.getConfiguration());
-    			}
-    		}
-    		
-//    		System.out.println("printing oneItemSetKeys");
-//            
+	    	try{
+	//    		System.out.println("In the try in setup");
+	    		
+	    		Path[] stopWordsFiles = DistributedCache.getLocalCacheFiles(context.getConfiguration());
+	    		
+	//    		System.out.println("Setup in Map 2");
+	//    		System.out.println(stopWordsFiles);
+	    		
+	    		if(stopWordsFiles != null && stopWordsFiles.length > 0) {
+	    			for(Path stopWordFile : stopWordsFiles) {
+	//    				System.out.println(stopWordFile);
+	    				readFile(stopWordFile, context.getConfiguration());
+	    			}
+	    		}
+	    		
+//	    		System.out.println("printing c");
+//	            
 //            for ( String asd: oneItemSetKeys )
-//            	System.out.println(asd);
-    		
-    	} catch(IOException ex) {
-    		System.err.println("Exception in mapper setup: " + ex.getMessage());
-    	}
+//            		System.out.println("[" + asd + "]");
+	    		
+	    	} catch(IOException ex) {
+	    		System.err.println("Exception in mapper setup: " + ex.getMessage());
+	    	}
     }
 	
 	@Override
@@ -76,12 +76,12 @@ public class aprioriMapper2 extends Mapper<LongWritable,Text,Text,IntWritable> {
 
         for ( int i = 0; i < words.length; i++ ) {
         	
-        	// adding all 1-itemset to the the list
-        	list.add(words[i]);
-//        	list.add(words[i].trim().substring(0, words[i].length()-1));
-
-        	// 1-itemSet
-//            context.write(new Text(words[i]), new IntWritable(1));
+	        	// adding all 1-itemset to the the list
+	        	list.add(words[i]);
+	//        	list.add(words[i].trim().substring(0, words[i].length()-1));
+	
+	        	// 1-itemSet
+	//            context.write(new Text(words[i]), new IntWritable(1));
 
         }
         
@@ -103,50 +103,55 @@ public class aprioriMapper2 extends Mapper<LongWritable,Text,Text,IntWritable> {
 //		System.out.println("printing getListFromComb");
         
         for ( String ATwoItemSet: getListFromComb ) {
-//        	 System.out.println(ATwoItemSet);
+//        		System.out.println(ATwoItemSet);
         	
-        	 String separateWords[] = ATwoItemSet.split("\\s");
-        	 
-//        	 System.out.println("contains in list");
-        	 
-        	 // Getting the items from the combinations
-        	 // Trimming for precausion + removing last trailing ","
-        	 String firstItem = separateWords[0].trim().substring(0, separateWords[0].length()-1);
-        	 String secondItem = separateWords[1].trim().substring(0, separateWords[1].length()-1);
-        	 
-//        	 System.out.println(list.contains(firstItem));
-//        	 System.out.println(list.contains(secondItem));
-        	
-        	 // Checking if this combination is available in the main dataset or not
-        	 if ( list.contains(firstItem) && list.contains(secondItem) ) {
-        		 System.out.println("In if of contains");
-        		 
-        		 System.out.println("[" + firstItem + "]");
-            	 System.out.println("[" + secondItem + "]");
-        		 
-        		 System.out.println("ATwoItemSet: " + ATwoItemSet);
-        		 
-        		 // Checking Palindrome
-        		 if ( Integer.parseInt(firstItem) > Integer.parseInt(secondItem) ) {
-        			 
-        			 System.out.println("if in ItemSet write 2 - palindrome");
-        			 
-        			 context.write(new Text(secondItem + " " + firstItem), new IntWritable(1));
-        			 
-        		 } else {
-        			 
-        			 System.out.println("In else ItemSet write 2 - palindrome");
-        			 
-//        			 context.write(new Text(ATwoItemSet), new IntWritable(1));
-        			 context.write(new Text(firstItem + " " + secondItem), new IntWritable(1));
-        			 
-        		 }
-        	 }
-        	
-//        	System.out.println("Separate words");
-//        	
-//        	System.out.println(separateWords[0]);
-//        	System.out.println(separateWords[1]);
+	        	 String separateWords[] = ATwoItemSet.split("\\s");
+	        	 
+	//        	 System.out.println("contains in list");
+	        	 
+	        	 // Getting the items from the combinations
+	        	 // Trimming for precausion + removing last trailing ","
+//	        	 String firstItem = separateWords[0].trim().substring(0, separateWords[0].length()-1);
+//	        	 String secondItem = separateWords[1].trim().substring(0, separateWords[1].length()-1);
+	        	 
+	        	 String firstItem = separateWords[0];
+	        	 String secondItem = separateWords[1];
+	        	 
+//	        	 System.out.println("[" + firstItem + "]");
+//	        	 System.out.println("[" + secondItem + "]");
+//	        	 System.out.println(list.contains(firstItem));
+//	        	 System.out.println(list.contains(secondItem));
+	        	
+	        	 // Checking if this combination is available in the main dataset or not
+	        	 if ( list.contains(firstItem) && list.contains(secondItem) ) {
+	//        		 System.out.println("In if of contains");
+	        		 
+	//        		 System.out.println("[" + firstItem + "]");
+	//            	 System.out.println("[" + secondItem + "]");
+	        		 
+	//        		 System.out.println("ATwoItemSet: " + ATwoItemSet);
+	        		 
+	        		 // Checking Palindrome
+	        		 if ( Integer.parseInt(firstItem) > Integer.parseInt(secondItem) ) {
+	        			 
+	//        			 System.out.println("if in ItemSet write 2 - palindrome");
+	        			 
+	        			 context.write(new Text(secondItem + " " + firstItem), new IntWritable(1));
+	        			 
+	        		 } else {
+	        			 
+	//        			 System.out.println("In else ItemSet write 2 - palindrome");
+	        			 
+	//        			 context.write(new Text(ATwoItemSet), new IntWritable(1));
+	        			 context.write(new Text(firstItem + " " + secondItem), new IntWritable(1));
+	        			 
+	        		 }
+	        	 }
+	        	
+	//        	System.out.println("Separate words");
+	//        	
+	//        	System.out.println(separateWords[0]);
+	//        	System.out.println(separateWords[1]);
         	
         }
         
@@ -222,7 +227,7 @@ public class aprioriMapper2 extends Mapper<LongWritable,Text,Text,IntWritable> {
 //				combWithValues.put(words[0], Integer.parseInt(words[1].trim()));
 				
 				// putting the strings to a ArrayList
-				oneItemSetKeys.add(words[0].trim());
+				oneItemSetKeys.add(words[0].trim().substring(0, words[0].length() - 1));
 				
 //				System.out.println("ADDED");
 			}

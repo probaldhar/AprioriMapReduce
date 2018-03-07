@@ -50,7 +50,7 @@ public class aprioriReducer2 extends Reducer<Text, IntWritable, Text, LongWritab
         // Check if the total is greater or equal than minimum support
         if ( addedFunctions.hasMinSupport(minSup, numTxns, total) ) 
 //        	context.write(new Text(itemsetIds + ","), new LongWritable(total));
-        	context.write(new Text(firstItem + " " + secondItem + ","), new LongWritable(total));
+        		context.write(new Text(firstItem + " " + secondItem + ","), new LongWritable(total));
 
     }
 
