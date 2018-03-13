@@ -35,6 +35,9 @@ public class aprioriMain {
 		// maximum transaction count 
 		Integer MAX_NUM_TXNS;
 		
+		// Minimum Confidence
+		Double min_conf;
+		
 		// configuration
 		Configuration conf = new Configuration();
 		
@@ -52,6 +55,12 @@ public class aprioriMain {
 		if ( args[3] != null ) {
 			MAX_NUM_TXNS = Integer.parseInt(args[3]);
 			conf.setInt("numTxns", MAX_NUM_TXNS);
+		}
+		
+		// argument 4 for maximum transaction
+		if ( args[4] != null ) {
+			min_conf = Double.parseDouble(args[4]);
+			conf.set("minConf", Double.toString(min_conf));
 		}
 		
 		// create the job
@@ -227,6 +236,8 @@ public class aprioriMain {
         
         // Time measurement
         endTime = System.currentTimeMillis();
+//        System.out.println("start: " + startTime);
+//        System.out.println("End: " + endTime);
 		System.out.println("Total time taken = " + (endTime - startTime) );
 		
 	}

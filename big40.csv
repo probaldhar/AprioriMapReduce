@@ -1,0 +1,9 @@
+ItemSet,Support,Confidence,Lift,Is it a NAR?,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,Total Time Required,Map 1,Reduce 1,Map 2,Reduce 2,Map 3
+,,,,,,,,,1294161,597696,679829,2706439,2490729,23819
+,,,,,,,,,,,,,,
+,,,,,,,,Number of Map/Reduce,,11,10,11,10,10
