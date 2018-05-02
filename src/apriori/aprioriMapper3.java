@@ -158,7 +158,8 @@ public class aprioriMapper3 extends Mapper<LongWritable,Text,Text,Text>{
 	//    		System.out.println("Support: " + support );
 	    		
 	    		// Calculating confidence for this itemset ( 2 itemset )
-	    		float confidence = support/firstValue;
+//	    		float confidence = support/firstValue;
+	    		float confidence = support/addedFunctions.getSupport(firstValue, numTxns);;
 	    		
 	//    		System.out.println("conf: " + confidence );
 	    		
@@ -176,8 +177,8 @@ public class aprioriMapper3 extends Mapper<LongWritable,Text,Text,Text>{
 	    		 */
 	        if ( confidence > min_conf && lift >= 1.0 ) 
 	    			context.write(new Text("A -> B, " + words[0] + ","), new Text(String.valueOf(support) + ", " + String.valueOf(confidence) + ", " + String.valueOf(lift) + " , valid positive") );
-	        else 
-	        		context.write(new Text("A -> B, " + words[0] + ","), new Text(String.valueOf(support) + ", " + String.valueOf(confidence) + ", " + String.valueOf(lift)) );
+	        //else 
+	        	//	context.write(new Text("A -> B, " + words[0] + ","), new Text(String.valueOf(support) + ", " + String.valueOf(confidence) + ", " + String.valueOf(lift)) );
 	    		
 	        /**
 	    		 * FOR RULE A -> !B
@@ -197,8 +198,8 @@ public class aprioriMapper3 extends Mapper<LongWritable,Text,Text,Text>{
 	    		// Checking for negative rule
 	    		if ( confidence2ndRule > min_conf && lift2ndRule >= 1.0 )
 	    			context.write(new Text("A -> !B, " + words[0] + ","), new Text(String.valueOf(support2ndRule) + ", " + String.valueOf(confidence2ndRule) + ", " + String.valueOf(lift2ndRule) + " , valid negative") );
-	    		else 
-	    			context.write(new Text("A -> !B, " + words[0] + ","), new Text(String.valueOf(support2ndRule) + ", " + String.valueOf(confidence2ndRule) + ", " + String.valueOf(lift2ndRule)) );
+	    		//else 
+	    		//	context.write(new Text("A -> !B, " + words[0] + ","), new Text(String.valueOf(support2ndRule) + ", " + String.valueOf(confidence2ndRule) + ", " + String.valueOf(lift2ndRule)) );
 	    		
 	    		
 	    		/**
@@ -224,8 +225,8 @@ public class aprioriMapper3 extends Mapper<LongWritable,Text,Text,Text>{
 	    		// Checking for negative rule
 	    		if ( confidence3rdRule > min_conf && lift3rdRule >= 1.0 )
 	    			context.write(new Text("!A -> B, " + words[0] + ","), new Text(String.valueOf(support3rdRule) + ", " + String.valueOf(confidence3rdRule) + ", " + String.valueOf(lift3rdRule) + " , valid negative") );
-	    		else 
-	    			context.write(new Text("!A -> B, " + words[0] + ","), new Text(String.valueOf(support3rdRule) + ", " + String.valueOf(confidence3rdRule) + ", " + String.valueOf(lift3rdRule)) );
+	    		//else 
+	    		//	context.write(new Text("!A -> B, " + words[0] + ","), new Text(String.valueOf(support3rdRule) + ", " + String.valueOf(confidence3rdRule) + ", " + String.valueOf(lift3rdRule)) );
 	    		
 	    		
 	    		/**
@@ -247,8 +248,8 @@ public class aprioriMapper3 extends Mapper<LongWritable,Text,Text,Text>{
 	    		// Checking for negative rule
 	    		if ( confidence4thRule > min_conf && lift4thRule >= 1.0 )
 	    			context.write(new Text("!A -> !B, " + words[0] + ","), new Text(String.valueOf(support4thRule) + ", " + String.valueOf(confidence4thRule) + ", " + String.valueOf(lift4thRule) + " , valid negative") );
-	    		else 
-	    			context.write(new Text("!A -> !B, " + words[0] + ","), new Text(String.valueOf(support4thRule) + ", " + String.valueOf(confidence4thRule) + ", " + String.valueOf(lift4thRule)) );
+	    		//else 
+	    		//	context.write(new Text("!A -> !B, " + words[0] + ","), new Text(String.valueOf(support4thRule) + ", " + String.valueOf(confidence4thRule) + ", " + String.valueOf(lift4thRule)) );
 	            
 	    	}
     	

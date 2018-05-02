@@ -19,6 +19,7 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.filecache.DistributedCache;
+//import org.apache.hadoop.fs.FileSystem;
 
 import utils.addedFunctions;
 
@@ -38,12 +39,17 @@ public class aprioriMain {
 		// Minimum Confidence
 		Double min_conf;
 		
+		// Number of Reducer 
+		// 0 is the default
+		Integer numOfReducer = 10;
+		
 		// configuration
 		Configuration conf = new Configuration();
 		
 		// Memory Increase
-		conf.set("mapreduce.map.memory.mb", "8192");
-		conf.set("mapreduce.map.java.opts", "-Xmx7354m");
+//		conf.set("mapreduce.map.memory.mb", "8192");
+		conf.set("mapreduce.map.memory.mb", "5630");
+		conf.set("mapreduce.map.java.opts", "-Xmx5600m");
 		
 		// argument 3 for minimum support
 		if ( args[2] != null ) {
@@ -63,10 +69,16 @@ public class aprioriMain {
 			conf.set("minConf", Double.toString(min_conf));
 		}
 		
+		if ( args[5] != null ) {
+			numOfReducer = Integer.parseInt(args[5]);
+		}
+		
 		// create the job
 //        Configuration conf = new Configuration();
         Job job = new Job(conf, "apriori");
         job.setJarByClass(aprioriMain.class);
+        
+//        System.out.println("block size: " + conf.get("dfs.blocksize"));
         
         // Distributed cache to pass the main input file
 //        DistributedCache.addCacheFile(new Path(args[0]).toUri(), job.getConfiguration());
@@ -84,8 +96,11 @@ public class aprioriMain {
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(IntWritable.class);
 
-        job.setNumReduceTasks(10);
+//        job.setNumReduceTasks(10);
+        job.setNumReduceTasks(numOfReducer);
         job.setReducerClass(aprioriReducer1.class);
+        
+//        setMaxInputSplitSize(job, 128*1024);
 
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(LongWritable.class);
@@ -143,7 +158,8 @@ public class aprioriMain {
         job2.setMapOutputKeyClass(Text.class);
         job2.setMapOutputValueClass(IntWritable.class);
 
-        job2.setNumReduceTasks(10);
+//        job2.setNumReduceTasks(10);
+        job2.setNumReduceTasks(numOfReducer);
         job2.setReducerClass(aprioriReducer2.class);
         
 //        job2.setMapOutputKeyClass(Text.class);
